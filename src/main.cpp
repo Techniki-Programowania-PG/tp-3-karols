@@ -1,39 +1,33 @@
 #include <pybind11/pybind11.h>
+#include "funkcje.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-int add(int i, int j) {
-    return i + j;
-}
+
+
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_core, m) {
-    m.doc() = R"pbdoc(
-        Pybind11 example plugin
-        -----------------------
+PYBIND11_MODULE(_core, m) {  
 
-        .. currentmodule:: scikit_build_example
+    m.def("sinus", &sinus, "Generuje sygnał sinusoidalny",
+          py::arg("f"),py::arg("t_start"),py::arg("t_end"),py::arg("l_probek"));
 
-        .. autosummary::
-           :toctree: _generate
+    m.def("cosinus", &cosinus, "Generuje sygnał cosinusoidalny",
+          py::arg("f"),py::arg("t_start"),py::arg("t_end"),py::arg("l_probek"));
 
-           add
-           subtract
-    )pbdoc";
+    m.def("prostokatny", &prostokatny, "Generuje sygnał prostokatny",
+          py::arg("f"),py::arg("t_start"),py::arg("t_end"),py::arg("l_probek"));
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
+    m.def("piloksztaltny", &piloksztaltny, "Generuje sygnał piloksztaltny",
+          py::arg("f"),py::arg("t_start"),py::arg("t_end"),py::arg("l_probek"));
+    
 
-        Some other explanation about the add function.
-    )pbdoc");
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
 
-        Some other explanation about the subtract function.
-    )pbdoc");
+
+
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
